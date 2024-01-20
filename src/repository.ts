@@ -129,4 +129,8 @@ export class Repository {
       FROM day_habit DH
       `;
   }
+
+  async createdHabits (){
+    return await prisma.habits.findMany();
+  }
 }

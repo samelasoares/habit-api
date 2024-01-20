@@ -94,4 +94,15 @@ export class Controller {
       throw new Error(error as string);
     }
   }
+
+  async createdHabits(req: FastifyRequest, res: FastifyReply) {
+    try {
+      const createdHabits = await repository.createdHabits();
+      res.status(200).send(createdHabits);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error as string);
+    }
+  }
 }
+
