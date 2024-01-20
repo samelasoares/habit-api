@@ -1,9 +1,10 @@
 {
-  "name": "habit-api",
+  "name": "habit-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/server.ts"
   },
   "keywords": [],
@@ -17,9 +18,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@mermaid-js/mermaid-cli": "^10.6.1",
+    "@types/node": "^20.10.6",
     "prisma": "^5.7.1",
-    "prisma-erd-generator": "^1.11.2",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
   },

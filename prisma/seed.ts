@@ -1,52 +1,46 @@
 import { PrismaClient } from "@prisma/client";
-
 const prisma = new PrismaClient();
 
-const firstHabitId = "0730ffac-d039-4194-9571-01aa2aa0efbd";
-const firstHabitCreationDate = new Date("2023-12-31T00:00:00.000");
+const firstHabitId = 1;
+const firstHabitCreationDate = new Date("2023-12-23T03:00:00.000");
 
-const secondHabitId = "00880d75-a933-4fef-94ab-e05744435297";
-const secondHabitCreationDate = new Date("2023-12-31T00:00:00.000");
+const secondHabitId = 2;
+const secondHabitCreationDate = new Date("2023-12-25T03:00:00.000");
 
-const thirdHabitId = "fa1a1bcf-3d87-4626-8c0d-d7fd1255ac00";
-const thirdHabitCreationDate = new Date("2023-12-31T00:00:00.000");
+const thirdHabitId = 3;
+const thirdHabitCreationDate = new Date("2023-12-31T03:00:00.000");
 
-async function run() {
-  await prisma.habit.deleteMany();
-  await prisma.day.deleteMany();
+async function main() {
+  await prisma.habits.deleteMany();
+  await prisma.day_habit.deleteMany();
+  await prisma.completed_habit.deleteMany();
 
-  /**
-   * Create habits
-   */
   await Promise.all([
-    prisma.habit.create({
+    prisma.habits.create({
       data: {
-        id: firstHabitId,
         title: "Beber 2L água",
         created_at: firstHabitCreationDate,
-        WeekDays: {
+        habit_week_days: {
           create: [{ week_day: 1 }, { week_day: 2 }, { week_day: 3 }],
         },
       },
     }),
 
-    prisma.habit.create({
+    prisma.habits.create({
       data: {
-        id: secondHabitId,
-        title: "Exercitar",
+        title: "Me exercitar",
         created_at: secondHabitCreationDate,
-        WeekDays: {
+        habit_week_days: {
           create: [{ week_day: 3 }, { week_day: 4 }, { week_day: 5 }],
         },
       },
     }),
 
-    prisma.habit.create({
+    prisma.habits.create({
       data: {
-        id: thirdHabitId,
         title: "Dormir 8h",
         created_at: thirdHabitCreationDate,
-        WeekDays: {
+        habit_week_days: {
           create: [
             { week_day: 1 },
             { week_day: 2 },
@@ -60,72 +54,47 @@ async function run() {
   ]);
 
   await Promise.all([
-    /**
-     * Habits (Complete/Available): 1/1
-     */
-    prisma.day.create({
+    //  Habits (Complete/Available): 1/1
+
+    prisma.day_habit.create({
       data: {
         /** Monday */
-        date: new Date("2024-01-01T03:00:00.000z"),
-        dayHabits: {
+        date: new Date("2023-12-25T03:00:00.000z"),
+        completed_habit: {
           create: {
-            habit_id: firstHabitId,
+            id_habit: firstHabitId,
           },
         },
       },
     }),
 
-    /**
-     * Habits (Complete/Available): 1/1
-     */
-    prisma.day.create({
+    // Habits (Complete/Available): 1/1
+
+    prisma.day_habit.create({
       data: {
         /** Friday */
-        date: new Date("2024-01-05T03:00:00.000z"),
-        dayHabits: {
+        date: new Date("2023-12-29T03:00:00.000z"),
+        completed_habit: {
           create: {
-            habit_id: firstHabitId,
+            id_habit: firstHabitId,
           },
         },
       },
     }),
 
-    /**
-     * Habits (Complete/Available): 2/2
-     */
-    prisma.day.create({
+    //  Habits (Complete/Available): 2/2
+
+    prisma.day_habit.create({
       data: {
         /** Wednesday */
-        date: new Date("2024-01-03T03:00:00.000z"),
-        dayHabits: {
-          create: [{ habit_id: firstHabitId }, { habit_id: secondHabitId }],
+        date: new Date("2023-12-27T03:00:00.000z"),
+        completed_habit: {
+          create: [{ id_habit: firstHabitId }, { id_habit: secondHabitId }],
         },
       },
     }),
   ]);
 }
-
-run()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
-
-async function main() {
-  await prisma.habit.deleteMany();
-
-  await prisma.habit.create({
-    data: {
-      title: "Beber 3L de água",
-      created_at: new Date("2023-12-31T00:00:00.000z"),
-    },
-  });
-}
-
 main()
   .then(async () => {
     await prisma.$disconnect();

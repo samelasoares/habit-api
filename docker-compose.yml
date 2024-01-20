@@ -1,0 +1,11 @@
+version: "3.1"
+
+services:
+  habit-api:
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: habit-api
+    ports:
+      - 5432:5432

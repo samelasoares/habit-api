@@ -5,55 +5,44 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator erd {
-  provider = "prisma-erd-generator"
-}
-
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Habit {
-  id            String          @id @default(uuid())
-  title         String
-  created_at    DateTime
-  dayHabits     DAyHabit[]
-  WeekDays HabitWeekDays[]
+model habits {
+  id_habit   Int      @id @default(autoincrement())
+  title      String
+  created_at DateTime
 
-  @@map("habits")
+  habit_week_days habit_week_days[]
+  completed_habit completed_habit[]
 }
 
-model HabitWeekDays {
-  id       String @id @default(uuid())
-  habit_id String
-  week_day Int
+model habit_week_days {
+  id_habit_week_days Int @id @default(autoincrement())
+  id_habit           Int
+  week_day           Int
 
-  habit   Habit  @relation(fields: [habit_id], references: [id])
+  habits habits @relation(fields: [id_habit], references: [id_habit])
 
-  @@unique([habit_id, week_day])
-  @@map("habit_week_days")
+  @@unique([id_habit, week_day])
 }
 
-model Day {
-  id   String   @id @default(uuid())
-  date DateTime
+model day_habit {
+  id_day_habit Int      @id @default(autoincrement())
+  date         DateTime
 
-  dayHabits DAyHabit[]
-
-  @@unique([date])
-  @@map("days")
+  completed_habit completed_habit[]
 }
 
-model DAyHabit {
-  id String @id @default(uuid())
+model completed_habit {
+  id_completed_habit Int @id @default(autoincrement())
+  id_habit           Int
+  id_day_habit       Int
 
-  day_id   String
-  habit_id String
+  habits    habits    @relation(fields: [id_habit], references: [id_habit])
+  day_habit day_habit @relation(fields: [id_day_habit], references: [id_day_habit])
 
-  day   Day   @relation(fields: [day_id], references: [id])
-  habit Habit @relation(fields: [habit_id], references: [id])
-
-  @@unique([day_id, habit_id])
-  @@map("day_habits")
+  @@unique([id_habit, id_day_habit])
 }

@@ -1,17 +1,12 @@
-import Fastify from "fastify";
 import cors from "@fastify/cors";
-import { appRoutes } from "./routes";
+import fastify from "fastify";
+import { Routes } from "./routes";
 
-const app = Fastify();
+const app = fastify();
 
 app.register(cors);
-app.register(appRoutes);
+app.register(Routes);
 
-app
-  .listen({
-    port: 3333,
-    host: "192.168.1.105",
-  })
-  .then(() => {
-    console.log("HTTP Server running");
-  });
+app.listen({ port: 3333, host: "192.168.1.105"}).then(() => {
+  console.log("Rodando em localhost:3333 🚀");
+});
