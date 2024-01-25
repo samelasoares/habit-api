@@ -2,10 +2,10 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const firstHabitId = 1;
-const firstHabitCreationDate = new Date("2023-12-23T03:00:00.000");
+const firstHabitCreationDate = new Date("2023-12-31T03:00:00.000");
 
 const secondHabitId = 2;
-const secondHabitCreationDate = new Date("2023-12-25T03:00:00.000");
+const secondHabitCreationDate = new Date("2023-12-31T03:00:00.000");
 
 const thirdHabitId = 3;
 const thirdHabitCreationDate = new Date("2023-12-31T03:00:00.000");
@@ -59,7 +59,7 @@ async function main() {
     prisma.day_habit.create({
       data: {
         /** Monday */
-        date: new Date("2023-12-25T03:00:00.000z"),
+        date: new Date("2024-01-01T03:00:00.000z"),
         completed_habit: {
           create: {
             id_habit: firstHabitId,
@@ -73,10 +73,10 @@ async function main() {
     prisma.day_habit.create({
       data: {
         /** Friday */
-        date: new Date("2023-12-29T03:00:00.000z"),
+        date: new Date("2024-01-05T03:00:00.000z"),
         completed_habit: {
           create: {
-            id_habit: firstHabitId,
+            id_habit: secondHabitId,
           },
         },
       },
@@ -87,9 +87,9 @@ async function main() {
     prisma.day_habit.create({
       data: {
         /** Wednesday */
-        date: new Date("2023-12-27T03:00:00.000z"),
+        date: new Date("2024-01-03T03:00:00.000z"),
         completed_habit: {
-          create: [{ id_habit: firstHabitId }, { id_habit: secondHabitId }],
+          create: [{ id_habit: thirdHabitId }, { id_habit: secondHabitId }],
         },
       },
     }),

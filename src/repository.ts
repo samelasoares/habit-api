@@ -39,7 +39,7 @@ export class Repository {
         })
       );
 
-    return { possibleHabits, completedHabits };
+      return { possibleHabits, completedHabits: completedHabits ? [...completedHabits] : [] };
   }
 
   async createHabit(title: string, weekDays: number[]) {

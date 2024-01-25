@@ -9,7 +9,7 @@ export async function Routes(app: FastifyInstance) {
   app.get("/day", controller.detailsOfDay);
   app.get("/summary", controller.summary);
 
-  app.patch("/habits/:id_habit/toogle", controller.toogleHabit);
+  app.patch("/habits/:id_habit/toggle", controller.toogleHabit);
 
   app.post("/create", controller.createHabit);
 }
